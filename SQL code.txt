@@ -1,0 +1,311 @@
+CREATE TABLE Type ( ShowID CHAR(10) NOT NULL UNIQUE, Title CHAR(10) NOT NULL UNIQUE, RYear INTEGER, PRIMARY KEY(ShowID) );
+
+INSERT INTO Type VALUES('81145628', 'Norm of the North: King Sized Adventure', 2019);
+INSERT INTO Type VALUES('80117401', 'Jandino: Whatever it Takes', 2016);
+INSERT INTO Type VALUES('70234439', 'Transformers Prime', 2013);
+INSERT INTO Type VALUES('80125979', '#realityhigh', 2017);
+INSERT INTO Type VALUES('70235731', 'The Blue Planet: A Natural History of the Oceans', 2001);
+INSERT INTO Type VALUES('70261978', 'Frozen Planet', 2011);
+INSERT INTO Type VALUES('80157072', 'Hold the Dark', 2018);
+INSERT INTO Type VALUES('80201933', 'Made in Mexico', 2018);
+INSERT INTO Type VALUES('80203776', 'Bitcoin Heist', 2016);
+INSERT INTO Type VALUES('80190449', 'The Endless', 2017);
+
+CREATE TABLE Director ( DID CHAR(10) NOT NULL UNIQUE, DName CHAR(20) NOT NULL, PRIMARY KEY(DID) );
+
+INSERT INTO Director VALUES('1', 'Richard Finn');
+INSERT INTO Director VALUES('2', 'Christopher C.C. Wong');
+INSERT INTO Director VALUES('3', 'Alex Kurtzman');
+INSERT INTO Director VALUES('4', 'Fernando Lebrija');
+INSERT INTO Director VALUES('5', 'Alastair Fothergill');
+INSERT INTO Director VALUES('6', 'Jeremy Saulnier');
+INSERT INTO Director VALUES('7', 'Duncan Bridgeman');
+INSERT INTO Director VALUES('8', 'Ham Tran');
+INSERT INTO Director VALUES('9', 'Justin Benson');
+INSERT INTO Director VALUES('10', 'Aaron Moorhead');
+
+CREATE TABLE Casts ( CID CHAR(10) NOT NULL UNIQUE, CName CHAR(20) NOT NULL, PRIMARY KEY(CID) );
+
+INSERT INTO Casts VALUES('1', 'Alan Marriott');
+INSERT INTO Casts VALUES('2', 'Andrew Toth');
+INSERT INTO Casts VALUES('3', 'Brian Dobson');
+INSERT INTO Casts VALUES('4', 'Cole Howard');
+INSERT INTO Casts VALUES('5', 'Jennifer Cameron');
+INSERT INTO Casts VALUES('6', 'Jonathan Holmes');
+INSERT INTO Casts VALUES('7', 'Lee Tockar');
+
+INSERT INTO Casts VALUES('8', 'Jandino Asporaat');
+
+INSERT INTO Casts VALUES('9', 'Peter Cullen');
+INSERT INTO Casts VALUES('10', 'Sumalee Montano');
+INSERT INTO Casts VALUES('11', 'Frank Welker');
+INSERT INTO Casts VALUES('12', 'Jeffrey Combs');
+INSERT INTO Casts VALUES('13', 'Kevin Michael Richardson');
+INSERT INTO Casts VALUES('14', 'Tania Gunadir');
+
+INSERT INTO Casts VALUES('15', 'Nesta Cooper');
+INSERT INTO Casts VALUES('16', 'Kate Walsh');
+INSERT INTO Casts VALUES('17', 'John Michael Higgins');
+INSERT INTO Casts VALUES('18', 'Keith Powers');
+INSERT INTO Casts VALUES('19', 'Alicia Sanz');
+INSERT INTO Casts VALUES('20', 'Jake Borelli');
+INSERT INTO Casts VALUES('21', 'Kid Ink');
+
+INSERT INTO Casts VALUES('22', 'David Attenborough');
+
+INSERT INTO Casts VALUES('23', 'Jeffrey Wright');
+INSERT INTO Casts VALUES('24', 'Alexander SkarsgÃ¥rd');
+INSERT INTO Casts VALUES('25', 'James Badge Dale');
+INSERT INTO Casts VALUES('26', 'Riley Keough');
+INSERT INTO Casts VALUES('27', 'Julian Black Antelope');
+
+INSERT INTO Casts VALUES('28', 'Bella Ramsey');
+INSERT INTO Casts VALUES('29', 'Ameerah Falzon-Ojo');
+INSERT INTO Casts VALUES('30', 'Oliver Nelson');
+INSERT INTO Casts VALUES('31', 'Daisy Haggard');
+INSERT INTO Casts VALUES('32', 'Rasmus Hardiker');
+
+INSERT INTO Casts VALUES('33', 'Kate Nhung');
+INSERT INTO Casts VALUES('34', 'Thanh Pham');
+INSERT INTO Casts VALUES('35', 'Petey Majik Nguyen');
+INSERT INTO Casts VALUES('36', 'Suboi');
+INSERT INTO Casts VALUES('37', 'Jayvee Mai The Hiep');
+INSERT INTO Casts VALUES('38', 'Lam Thanh My');
+
+INSERT INTO Casts VALUES('39', 'Aaron Moorhead');
+INSERT INTO Casts VALUES('40', 'Justin Benson');
+INSERT INTO Casts VALUES('41', 'Callie Hernandezn');
+INSERT INTO Casts VALUES('42', 'Lew Temple');
+INSERT INTO Casts VALUES('43', 'James Jordan');
+INSERT INTO Casts VALUES('44', 'Tate Ellington');
+
+CREATE TABLE Genre ( GName CHAR(10) NOT NULL UNIQUE, PRIMARY Key(GName) );
+
+INSERT INTO Genre VALUES('Action');
+INSERT INTO Genre VALUES('Adventure');
+INSERT INTO Genre VALUES('Animation');
+INSERT INTO Genre VALUES('Drama');
+INSERT INTO Genre VALUES('Comedy');
+INSERT INTO Genre VALUES('Thriller');
+INSERT INTO Genre VALUES('Documentary');
+INSERT INTO Genre VALUES('Horror');
+
+CREATE TABLE Language ( LName CHAR(10) NOT NULL UNIQUE, PRIMARY KEY(LName) );
+
+INSERT INTO Language VALUES('English');
+INSERT INTO Language VALUES('Spanish');
+INSERT INTO Language VALUES('Greek');
+
+CREATE TABLE TVshow ( ShowID CHAR(10) NOT NULL UNIQUE, Seasons INTEGER NOT NULL, Episodes INTEGER NOT NULL, PRIMARY KEY(ShowID), FOREIGN KEY(ShowID) REFERENCES Type );
+CREATE INDEX tvshow_seasons_episodes_idx 
+ON TVshow (Seasons, Episodes);
+INSERT INTO TVshow VALUES('70234439', 3, 65);
+INSERT INTO TVshow VALUES('70235731', 1, 8);
+INSERT INTO TVshow VALUES('70261978', 1, 8);
+INSERT INTO TVshow VALUES('80201933', 1, 8);
+
+CREATE TABLE Movies ( ShowID CHAR(10) NOT NULL UNIQUE, Duration INTEGER NOT NULL, PRIMARY KEY(ShowID), FOREIGN KEY(ShowID) REFERENCES Type );
+CREATE INDEX movies_duration_idx 
+ON Movies (Duration);
+INSERT INTO Movies VALUES('81145628', 90);
+INSERT INTO Movies VALUES('80117401', 94);
+INSERT INTO Movies VALUES('80125979', 99);
+INSERT INTO Movies VALUES('80157072', 126);
+INSERT INTO Movies VALUES('80203776', 116);
+INSERT INTO Movies VALUES('80190449', 112);
+
+CREATE TABLE Recommends ( ShowID CHAR(10) NOT NULL, OtherID CHAR(10) NOT NULL, PRIMARY KEY(ShowID, OtherID), FOREIGN KEY(ShowID) REFERENCES Type, FOREIGN KEY(OtherID) REFERENCES Type(ShowID) );
+
+INSERT INTO Recommends VALUES ('81145628', '80117401');
+INSERT INTO Recommends VALUES ('81145628', '70234439');
+INSERT INTO Recommends VALUES ('81145628', '80125979');
+INSERT INTO Recommends VALUES ('81145628', '80157072');
+INSERT INTO Recommends VALUES ('81145628', '80203776');
+
+INSERT INTO Recommends VALUES ('80117401', '81145628');
+INSERT INTO Recommends VALUES ('80117401', '80125979');
+INSERT INTO Recommends VALUES ('80117401', '80203776');
+
+INSERT INTO Recommends VALUES ('70234439', '81145628');
+INSERT INTO Recommends VALUES ('70234439', '80157072');
+INSERT INTO Recommends VALUES ('70234439', '80203776');
+
+INSERT INTO Recommends VALUES ('80125979', '81145628');
+INSERT INTO Recommends VALUES ('80125979', '80117401');
+INSERT INTO Recommends VALUES ('80125979', '80203776');
+
+INSERT INTO Recommends VALUES ('70235731', '70261978');
+INSERT INTO Recommends VALUES ('70235731', '80201933');
+
+INSERT INTO Recommends VALUES ('70261978', '70235731');
+INSERT INTO Recommends VALUES ('70261978', '80201933');
+
+INSERT INTO Recommends VALUES ('80157072', '81145628');
+INSERT INTO Recommends VALUES ('80157072', '70234439');
+INSERT INTO Recommends VALUES ('80157072', '80203776');
+
+INSERT INTO Recommends VALUES ('80201933', '70235731');
+INSERT INTO Recommends VALUES ('80201933', '70261978');
+
+INSERT INTO Recommends VALUES ('80203776', '81145628');
+INSERT INTO Recommends VALUES ('80203776', '80117401');
+INSERT INTO Recommends VALUES ('80203776', '70234439');
+INSERT INTO Recommends VALUES ('80203776', '80125979');
+INSERT INTO Recommends VALUES ('80203776', '80157072');
+
+CREATE TABLE DirectedBy ( ShowID CHAR(10) NOT NULL, DID CHAR(10) NOT NULL, PRIMARY KEY(ShowID, DID), FOREIGN KEY(ShowID) REFERENCES Type, FOREIGN KEY(DID) REFERENCES Director );
+
+INSERT INTO DirectedBy VALUES('81145628', '1');
+INSERT INTO DirectedBy VALUES('80117401', '2');
+INSERT INTO DirectedBy VALUES('70234439', '3');
+INSERT INTO DirectedBy VALUES('80125979', '4');
+INSERT INTO DirectedBy VALUES('70235731', '5');
+INSERT INTO DirectedBy VALUES('70261978', '5');
+INSERT INTO DirectedBy VALUES('80157072', '6');
+INSERT INTO DirectedBy VALUES('80201933', '7');
+INSERT INTO DirectedBy VALUES('80203776', '8');
+
+INSERT INTO DirectedBy VALUES('80190449', '9');
+INSERT INTO DirectedBy VALUES('80190449', '10');
+
+CREATE TABLE CastBy ( CID CHAR(10) NOT NULL, DID CHAR(10) NOT NULL, PRIMARY KEY(CID, DID), FOREIGN KEY(CID) REFERENCES Casts, FOREIGN KEY(DID) REFERENCES Director );
+
+INSERT INTO CastBy VALUES('1', '1');
+INSERT INTO CastBy VALUES('2', '1');
+INSERT INTO CastBy VALUES('3', '1');
+INSERT INTO CastBy VALUES('4', '1');
+INSERT INTO CastBy VALUES('5', '1');
+INSERT INTO CastBy VALUES('6', '1');
+INSERT INTO CastBy VALUES('7', '1');
+
+INSERT INTO CastBy VALUES('8', '2');
+
+INSERT INTO CastBy VALUES('9', '3');
+INSERT INTO CastBy VALUES('10', '3');
+INSERT INTO CastBy VALUES('11', '3');
+INSERT INTO CastBy VALUES('12', '3');
+INSERT INTO CastBy VALUES('13', '3');
+INSERT INTO CastBy VALUES('14', '3');
+
+INSERT INTO CastBy VALUES('15', '4');
+INSERT INTO CastBy VALUES('16', '4');
+INSERT INTO CastBy VALUES('17', '4');
+INSERT INTO CastBy VALUES('18', '4');
+INSERT INTO CastBy VALUES('19', '4');
+INSERT INTO CastBy VALUES('20', '4');
+INSERT INTO CastBy VALUES('21', '4');
+
+INSERT INTO CastBy VALUES('22', '5');
+
+INSERT INTO CastBy VALUES('23', '6');
+INSERT INTO CastBy VALUES('24', '6');
+INSERT INTO CastBy VALUES('25', '6');
+INSERT INTO CastBy VALUES('26', '6');
+INSERT INTO CastBy VALUES('27', '6');
+
+INSERT INTO CastBy VALUES('28', '7');
+INSERT INTO CastBy VALUES('29', '7');
+INSERT INTO CastBy VALUES('30', '7');
+INSERT INTO CastBy VALUES('31', '7');
+INSERT INTO CastBy VALUES('32', '7');
+
+INSERT INTO CastBy VALUES('33', '8');
+INSERT INTO CastBy VALUES('34', '8');
+INSERT INTO CastBy VALUES('35', '8');
+INSERT INTO CastBy VALUES('36', '8');
+INSERT INTO CastBy VALUES('37', '8');
+INSERT INTO CastBy VALUES('38', '8');
+
+INSERT INTO CastBy VALUES('39', '9');
+INSERT INTO CastBy VALUES('40', '9');
+INSERT INTO CastBy VALUES('41', '9');
+INSERT INTO CastBy VALUES('42', '9');
+INSERT INTO CastBy VALUES('43', '9');
+INSERT INTO CastBy VALUES('44', '9');
+
+INSERT INTO CastBy VALUES('39', '10');
+INSERT INTO CastBy VALUES('40', '10');
+INSERT INTO CastBy VALUES('41', '10');
+INSERT INTO CastBy VALUES('42', '10');
+INSERT INTO CastBy VALUES('43', '10');
+INSERT INTO CastBy VALUES('44', '10');
+
+CREATE TABLE TypeGenre ( ShowID CHAR(10) NOT NULL, GName CHAR(10) NOT NULL, PRIMARY KEY(ShowID, GName), FOREIGN KEY(ShowID) REFERENCES Type, FOREIGN KEY(GName) REFERENCES Genre );
+
+INSERT INTO TypeGenre VALUES('81145628', 'Action');
+INSERT INTO TypeGenre VALUES('81145628', 'Comdey');
+
+INSERT INTO TypeGenre VALUES('80117401', 'Comedy');
+
+INSERT INTO TypeGenre VALUES('70234439', 'Animation');
+INSERT INTO TypeGenre VALUES('70234439', 'Action');
+INSERT INTO TypeGenre VALUES('70234439', 'Adventure');
+INSERT INTO TypeGenre VALUES('70234439', 'Drama');
+INSERT INTO TypeGenre VALUES('70234439', 'Thriller');
+
+INSERT INTO TypeGenre VALUES('80125979', 'Comedy');
+INSERT INTO TypeGenre VALUES('70235731', 'Documentary');
+INSERT INTO TypeGenre VALUES('70261978', 'Documentary');
+
+INSERT INTO TypeGenre VALUES('80157072', 'Action');
+INSERT INTO TypeGenre VALUES('80157072', 'Adventure');
+INSERT INTO TypeGenre VALUES('80157072', 'Drama');
+
+INSERT INTO TypeGenre VALUES('80201933', 'Documentary');
+
+INSERT INTO TypeGenre VALUES('80203776', 'Action');
+INSERT INTO TypeGenre VALUES('80203776', 'Comedy');
+
+INSERT INTO TypeGenre VALUES('80190449', 'Horror');
+
+CREATE TABLE Spoken ( ShowID CHAR(10) NOT NULL, LName CHAR(10) NOT NULL, PRIMARY KEY(ShowID, LName), FOREIGN KEY(ShowID) REFERENCES Type, FOREIGN KEY(LName) REFERENCES Language );
+
+INSERT INTO Spoken VALUES('81145628', 'English');
+
+INSERT INTO Spoken VALUES('80117401', 'English');
+INSERT INTO Spoken VALUES('80117401', 'Spanish');
+
+INSERT INTO Spoken VALUES('70234439', 'English');
+INSERT INTO Spoken VALUES('80125979', 'English');
+INSERT INTO Spoken VALUES('70235731', 'English');
+INSERT INTO Spoken VALUES('70261978', 'English');
+
+INSERT INTO Spoken VALUES('80157072', 'English');
+INSERT INTO Spoken VALUES('80157072', 'Spanish');
+INSERT INTO Spoken VALUES('80157072', 'Greek');
+
+INSERT INTO Spoken VALUES('80201933', 'English');
+INSERT INTO Spoken VALUES('80201933', 'Spanish');
+
+INSERT INTO Spoken VALUES('80203776', 'English');
+INSERT INTO Spoken VALUES('80190449', 'English');
+
+CREATE VIEW [Spanish_Movies] AS
+SELECT T.ShowID, T.Title
+FROM Type T, Spoken S
+WHERE T.ShowID = S.ShowID AND S.LName = 'Spanish';
+
+SELECT G.Gname
+FROM TypeGenre G
+GROUP By G.Gname
+HAVING 3 <= count(G.ShowID);
+
+SELECT S.Seasons, SUM(S.Episodes)
+FROM Type T
+INNER JOIN TVshow S on S.ShowID = T.ShowID
+GROUP BY S.Seasons
+Having 8 <= SUM(S.Episodes);
+
+SELECT T.Title
+FROM Type T
+WHERE T.ShowID IN (Select M.ShowID
+                   FROM Movies M
+                   WHERE M.Duration <= 100);
+
+SELECT D.DName
+FROM Director D 
+WHERE D.DID NOT IN (SELECT B.DID
+                    FROM DirectedBy B
+                    WHERE B.ShowID IN (SELECT T.ShowID
+                                       FROM TVShow T));
+                                 
